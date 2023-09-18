@@ -1,0 +1,185 @@
+{
+  "name": "eval_model_image_classify_acc_adversarial_example",
+  "description": "入力画像から敵対的サンプル画像を生成し、入力モデル(入力画像で学習させた画像分類モデル）の精度情報(Accuracy,Precision,Recall,F値,AUC)を算出する\nこれらの精度情報から、機械学習モデルの正確性・安定性を評価することができる。",
+  "source_repository": "https://github.com/aistairc/Qunomon_AIT_eval_model_image_classify_acc_adversarial_example",
+  "version": "0.2",
+  "quality": "https://ait-hub.pj.aist.go.jp/ait-hub/api/0.0.1/qualityDimensions/AIQM_Guideline/Robustness_of_trained_model",
+  "keywords": [
+    "images",
+    "image classification",
+    "adversarial_example",
+    "Accuracy",
+    "Precision",
+    "Recall",
+    "F",
+    "AUC",
+    "ConfusionMatrix"
+  ],
+  "references": [],
+  "licenses": [
+    "Apache License Version 2.0"
+  ],
+  "inventories": [
+    {
+      "name": "trained_model",
+      "type": "model",
+      "description": "Tensorflow 2.3で学習したモデル",
+      "requirement": {
+        "format": [
+          "h5"
+        ]
+      }
+    },
+    {
+      "name": "test_set_images",
+      "type": "dataset",
+      "description": "テスト画像セット（MNISTフォーマット）",
+      "requirement": {
+        "format": [
+          "gz"
+        ]
+      }
+    },
+    {
+      "name": "test_set_labels",
+      "type": "dataset",
+      "description": "テスト画像ラベル（MNISTフォーマット）",
+      "requirement": {
+        "format": [
+          "gz"
+        ]
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "epsilon",
+      "type": "float",
+      "description": "adversarial exampleの摂動パラメータ",
+      "default_val": "0.01",
+      "min": "0"
+    },
+    {
+      "name": "class_count",
+      "type": "int",
+      "description": "ラベル属性の属性値数",
+      "default_val": "10",
+      "min": "2",
+      "max": "99"
+    },
+    {
+      "name": "auc_average",
+      "type": "str",
+      "description": "ROC曲線を計算するためのパラメータ\n{‘micro’, ‘macro’, ‘samples’, ‘weighted’}\n詳細:sklearn.metrics.roc_auc_scoreのaverageパラメータ\nref:\nhttps://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html",
+      "default_val": "macro"
+    },
+    {
+      "name": "auc_multi_class",
+      "type": "str",
+      "description": "ROC曲線を計算するためのパラメータ\n{‘raise’, ‘ovr’, ‘ovo’}\n詳細:sklearn.metrics.roc_auc_scoreのmulti_classパラメータ\nref:\nhttps://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html",
+      "default_val": "raise"
+    }
+  ],
+  "report": {
+    "measures": [
+      {
+        "name": "Accuracy",
+        "type": "float",
+        "description": "モデルのAccuracy",
+        "structure": "single",
+        "min": "0",
+        "max": "1"
+      },
+      {
+        "name": "Precision",
+        "type": "float",
+        "description": "モデルのPrecision",
+        "structure": "single",
+        "min": "0",
+        "max": "1"
+      },
+      {
+        "name": "Recall",
+        "type": "float",
+        "description": "モデルのRecall",
+        "structure": "single",
+        "min": "0",
+        "max": "1"
+      },
+      {
+        "name": "F−measure",
+        "type": "float",
+        "description": "モデルのF値",
+        "structure": "single",
+        "min": "0",
+        "max": "1"
+      },
+      {
+        "name": "AUC",
+        "type": "float",
+        "description": "モデルのAUC",
+        "structure": "single",
+        "min": "0",
+        "max": "1"
+      },
+      {
+        "name": "AccuracyByClass",
+        "type": "float",
+        "description": "モデルの各クラスごとのAccuracy",
+        "structure": "sequence",
+        "min": "0",
+        "max": "1"
+      },
+      {
+        "name": "PrecisionByClass",
+        "type": "float",
+        "description": "モデルの各クラスごとのPrecision",
+        "structure": "sequence",
+        "min": "0",
+        "max": "1"
+      },
+      {
+        "name": "RecallByClass",
+        "type": "float",
+        "description": "モデルの各クラスごとのRecall",
+        "structure": "sequence",
+        "min": "0",
+        "max": "1"
+      },
+      {
+        "name": "F−measureByClass",
+        "type": "float",
+        "description": "モデルの各クラスごとのF値",
+        "structure": "sequence",
+        "min": "0",
+        "max": "1"
+      }
+    ],
+    "resources": [
+      {
+        "name": "ConfusionMatrixHeatmap",
+        "type": "picture",
+        "description": "混同行列(ヒートマップ)"
+      },
+      {
+        "name": "ROC-curve",
+        "type": "picture",
+        "description": "ROC曲線"
+      }
+    ]
+  },
+  "downloads": [
+    {
+      "name": "Log",
+      "description": "AIT実行ログ"
+    },
+    {
+      "name": "ConfusionMatrixCSV",
+      "description": "混合行列(csv)"
+    },
+    {
+      "name": "PredictionResult",
+      "description": "モデルの推論結果\nID,正解ラベル,推論結果確率(ラベル毎)"
+    }
+  ]
+}
