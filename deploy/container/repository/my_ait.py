@@ -33,7 +33,7 @@
 # 
 # * new cerarion
 
-# In[1]:
+# In[ ]:
 
 
 #########################################
@@ -66,7 +66,7 @@ if not is_ait_launch:
 
     # install ait-sdk
     get_ipython().system('pip install --upgrade pip')
-    get_ipython().system('pip install --force-reinstall ./$ait_sdk_name')
+    get_ipython().system('pip install -q --no-deps --force-reinstall ./$ait_sdk_name')
 
 
 # In[3]:
@@ -98,6 +98,7 @@ if not is_ait_launch:
     requirements_generator.add_package('seaborn', '0.10.1')
     requirements_generator.add_package('tensorflow', '2.7.3')
     requirements_generator.add_package('tensorflow-estimator', '2.7.0')
+    requirements_generator.add_package('tensorflow-cpu', '2.7.3')
 
 
 # In[ ]:
