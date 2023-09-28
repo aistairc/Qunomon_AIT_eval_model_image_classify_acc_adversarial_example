@@ -33,7 +33,7 @@
 # 
 # * new cerarion
 
-# In[ ]:
+# In[1]:
 
 
 #########################################
@@ -93,7 +93,7 @@ if not is_ait_launch:
     requirements_generator.add_package('matplotlib', '3.3.0')
     requirements_generator.add_package('numpy', '1.22.0')
     requirements_generator.add_package('pandas', '1.3.1')
-    requirements_generator.add_package('scikit-learn', '0.23.2')
+    requirements_generator.add_package('scikit-learn', '1.1.3')
     requirements_generator.add_package('scipy', '1.7.0')
     requirements_generator.add_package('seaborn', '0.10.1')
     requirements_generator.add_package('tensorflow', '2.7.3')
