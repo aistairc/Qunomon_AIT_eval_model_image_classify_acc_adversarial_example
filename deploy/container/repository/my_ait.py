@@ -683,7 +683,7 @@ def create_adversarial_images(input_images, input_label, model, epsilon):
 #########################################
 
 @log(logger)
-@ait_main(ait_output, path_helper)
+@ait_main(ait_output, path_helper, is_ait_launch)
 def main() -> None:
     image_px_size = 28
 
