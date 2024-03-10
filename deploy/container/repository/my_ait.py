@@ -196,7 +196,7 @@ if not is_ait_launch:
     manifest_genenerator.add_ait_keywords('AUC')
     manifest_genenerator.add_ait_keywords('ConfusionMatrix')
     manifest_genenerator.add_ait_licenses('Apache License Version 2.0')
-    manifest_genenerator.set_ait_quality('https://ait-hub.pj.aist.go.jp/ait-hub/api/0.0.1/qualityDimensions/AIQM_Guideline/Robustness_of_trained_model')
+    manifest_genenerator.set_ait_quality('https://ait-hub.pj.aist.go.jp/ait-hub/api/0.0.1/qualityDimensions/機械学習品質マネジメントガイドライン第三版/C-2機械学習モデルの安定性')
 
     inventory_requirement_trained_model = manifest_genenerator.format_ait_inventory_requirement(format_=['h5'])
     manifest_genenerator.add_ait_inventories(name='trained_model', 
