@@ -2,7 +2,7 @@
   "name": "eval_model_image_classify_acc_adversarial_example",
   "description": "入力画像から敵対的サンプル画像を生成し、入力モデル(入力画像で学習させた画像分類モデル）の精度情報(Accuracy,Precision,Recall,F値,AUC)を算出する\nこれらの精度情報から、機械学習モデルの正確性・安定性を評価することができる。",
   "source_repository": "https://github.com/aistairc/Qunomon_AIT_eval_model_image_classify_acc_adversarial_example",
-  "version": "0.2",
+  "version": "0.3",
   "quality": "https://ait-hub.pj.aist.go.jp/ait-hub/api/0.0.1/qualityDimensions/機械学習品質マネジメントガイドライン第三版/C-2機械学習モデルの安定性",
   "keywords": [
     "images",

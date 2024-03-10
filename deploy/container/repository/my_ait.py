@@ -185,7 +185,7 @@ if not is_ait_launch:
     manifest_genenerator.set_ait_name('eval_model_image_classify_acc_adversarial_example')
     manifest_genenerator.set_ait_description('入力画像から敵対的サンプル画像を生成し、入力モデル(入力画像で学習させた画像分類モデル）の精度情報(Accuracy,Precision,Recall,F値,AUC)を算出する\nこれらの精度情報から、機械学習モデルの正確性・安定性を評価することができる。')
     manifest_genenerator.set_ait_source_repository('https://github.com/aistairc/Qunomon_AIT_eval_model_image_classify_acc_adversarial_example')
-    manifest_genenerator.set_ait_version('0.2')
+    manifest_genenerator.set_ait_version('0.3')
     manifest_genenerator.add_ait_keywords('images')
     manifest_genenerator.add_ait_keywords('image classification')
     manifest_genenerator.add_ait_keywords('adversarial_example')
