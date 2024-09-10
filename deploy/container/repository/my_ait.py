@@ -33,7 +33,7 @@
 # 
 # * new cerarion
 
-# In[1]:
+# In[ ]:
 
 
 #########################################
@@ -91,17 +91,16 @@ if not is_ait_launch:
 if not is_ait_launch:
     requirements_generator._package_list = []
     requirements_generator.add_package('matplotlib', '3.3.0')
-    requirements_generator.add_package('numpy', '1.22.0')
+    requirements_generator.add_package('numpy', '1.26.3')
     requirements_generator.add_package('pandas', '1.3.1')
     requirements_generator.add_package('scikit-learn', '1.1.3')
-    requirements_generator.add_package('scipy', '1.7.0')
-    requirements_generator.add_package('seaborn', '0.10.1')
-    requirements_generator.add_package('tensorflow', '2.7.3')
-    requirements_generator.add_package('tensorflow-estimator', '2.7.0')
-    requirements_generator.add_package('tensorflow-cpu', '2.7.3')
+    requirements_generator.add_package('seaborn', '0.12.1')
+    requirements_generator.add_package('tensorflow', '2.11.1')
+    requirements_generator.add_package('tensorflow-estimator', '2.11.0')
+    requirements_generator.add_package('tensorflow-cpu', '2.11.1')
 
 
-# In[ ]:
+# In[5]:
 
 
 #########################################
@@ -115,7 +114,7 @@ if not is_ait_launch:
     get_ipython().system('pip install -r $requirements_path ')
 
 
-# In[ ]:
+# In[6]:
 
 
 #########################################
@@ -134,7 +133,6 @@ import pandas as pd
 import seaborn as sn
 import matplotlib.pyplot as plt
 from pathlib import Path
-from scipy import interp
 from itertools import cycle
 from os import makedirs, path
 
@@ -152,7 +150,7 @@ from ait_sdk.develop.annotation import measures, resources, downloads, ait_main 
 # must use modules
 
 
-# In[ ]:
+# In[7]:
 
 
 #########################################
@@ -171,7 +169,7 @@ from ait_sdk.develop.annotation import measures, resources, downloads, ait_main 
 # must use modules
 
 
-# In[ ]:
+# In[8]:
 
 
 #########################################
@@ -185,7 +183,7 @@ if not is_ait_launch:
     manifest_genenerator.set_ait_name('eval_model_image_classify_acc_adversarial_example')
     manifest_genenerator.set_ait_description('入力画像から敵対的サンプル画像を生成し、入力モデル(入力画像で学習させた画像分類モデル）の精度情報(Accuracy,Precision,Recall,F値,AUC)を算出する\nこれらの精度情報から、機械学習モデルの正確性・安定性を評価することができる。')
     manifest_genenerator.set_ait_source_repository('https://github.com/aistairc/Qunomon_AIT_eval_model_image_classify_acc_adversarial_example')
-    manifest_genenerator.set_ait_version('0.3')
+    manifest_genenerator.set_ait_version('0.4')
     manifest_genenerator.add_ait_keywords('images')
     manifest_genenerator.add_ait_keywords('image classification')
     manifest_genenerator.add_ait_keywords('adversarial_example')
@@ -307,7 +305,7 @@ if not is_ait_launch:
     manifest_path = manifest_genenerator.write()
 
 
-# In[ ]:
+# In[9]:
 
 
 #########################################
@@ -336,7 +334,7 @@ if not is_ait_launch:
     input_generator.write()
 
 
-# In[ ]:
+# In[10]:
 
 
 #########################################
@@ -367,7 +365,7 @@ ait_manifest.read_json(path_helper.get_manifest_file_path())
 ### do not edit cell
 
 
-# In[ ]:
+# In[11]:
 
 
 class ACCCalculator:
@@ -434,7 +432,7 @@ class ACCCalculator:
         return (2 * precision * recall) / (precision + recall + K.epsilon())
 
 
-# In[ ]:
+# In[12]:
 
 
 #########################################
@@ -452,7 +450,7 @@ def calc_acc_all(y_test, y_pred) -> (float, float, float, float):
     return calc.average_accuracy(one_hot_y, y_pred).numpy() ,            calc.macro_precision(one_hot_y, y_pred).numpy() ,            calc.macro_recall(one_hot_y, y_pred).numpy() ,            calc.macro_f_measure(one_hot_y, y_pred).numpy()
 
 
-# In[ ]:
+# In[13]:
 
 
 #########################################
@@ -470,7 +468,7 @@ def calc_acc_by_class( y_test, y_pred) -> (List[float], List[float], List[float]
     return calc.all_class_accuracy(one_hot_y, y_pred) ,            [v.numpy() for v in calc.all_class_precision(one_hot_y, y_pred)] ,            [v.numpy() for v in calc.all_class_recall(one_hot_y, y_pred)] ,            [v.numpy() for v in calc.all_class_f_measure(one_hot_y, y_pred)]
 
 
-# In[ ]:
+# In[14]:
 
 
 #########################################
@@ -487,7 +485,7 @@ def save_confusion_matrix_csv(y_test, y_pred, file_path: str=None) -> None:
     np.savetxt(file_path, cmx_data, fmt='%d', delimiter=',')
 
 
-# In[ ]:
+# In[15]:
 
 
 #########################################
@@ -517,7 +515,7 @@ def save_confusion_matrix_heatmap(y_test, y_pred, file_path: str=None) -> None:
     plt.savefig(file_path)
 
 
-# In[ ]:
+# In[16]:
 
 
 #########################################
@@ -551,7 +549,7 @@ def save_roc_curve(y_test, y_pred, n_classes: int, file_path: str=None) -> None:
     # Then interpolate all ROC curves at this points
     mean_tpr = np.zeros_like(all_fpr)
     for i in range(n_classes):
-        mean_tpr += interp(all_fpr, fpr[i], tpr[i])
+        mean_tpr += np.interp(all_fpr, fpr[i], tpr[i])
 
     # Finally average it and compute AUC
     mean_tpr /= n_classes
@@ -596,7 +594,7 @@ def save_roc_curve(y_test, y_pred, n_classes: int, file_path: str=None) -> None:
     plt.savefig(file_path)
 
 
-# In[ ]:
+# In[17]:
 
 
 #########################################
@@ -616,7 +614,7 @@ def calc_auc(y_test, y_pred, multi_class: str, average: str) -> float:
                          average=average)
 
 
-# In[ ]:
+# In[18]:
 
 
 #########################################
@@ -638,7 +636,7 @@ def save_prediction_result(y_test, y_pred, file_path: str=None) -> None:
     df.to_csv(file_path)
 
 
-# In[ ]:
+# In[19]:
 
 
 #########################################
@@ -653,7 +651,7 @@ def move_log(file_path: str=None) -> None:
     shutil.move(get_log_path(), file_path)
 
 
-# In[ ]:
+# In[20]:
 
 
 def create_adversarial_images(input_images, input_label, model, epsilon):
@@ -674,7 +672,7 @@ def create_adversarial_images(input_images, input_label, model, epsilon):
     return adv_image
 
 
-# In[ ]:
+# In[21]:
 
 
 #########################################
@@ -734,7 +732,7 @@ def main() -> None:
     move_log()
 
 
-# In[ ]:
+# In[22]:
 
 
 #########################################
