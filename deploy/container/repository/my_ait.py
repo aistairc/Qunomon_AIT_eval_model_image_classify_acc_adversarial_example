@@ -91,16 +91,16 @@ if not is_ait_launch:
 if not is_ait_launch:
     requirements_generator._package_list = []
     requirements_generator.add_package('matplotlib', '3.3.0')
-    requirements_generator.add_package('numpy', '1.26.3')
+    requirements_generator.add_package('numpy', '1.26.4')
     requirements_generator.add_package('pandas', '2.2.3')
     requirements_generator.add_package('scikit-learn', '1.5.2')
     requirements_generator.add_package('seaborn', '0.12.1')
-    requirements_generator.add_package('tensorflow', '2.11.1')
-    requirements_generator.add_package('tensorflow-estimator', '2.11.0')
-    requirements_generator.add_package('tensorflow-cpu', '2.11.1')
+    requirements_generator.add_package('tensorflow', '2.15.0')
+    requirements_generator.add_package('tensorflow-estimator', '2.15.0')
+    requirements_generator.add_package('tensorflow-cpu', '2.15.0')
 
 
-# In[5]:
+# In[ ]:
 
 
 #########################################
@@ -114,7 +114,7 @@ if not is_ait_launch:
     get_ipython().system('pip install -r $requirements_path ')
 
 
-# In[6]:
+# In[ ]:
 
 
 #########################################
@@ -149,7 +149,7 @@ from ait_sdk.develop.annotation import measures, resources, downloads, ait_main 
 # must use modules
 
 
-# In[7]:
+# In[ ]:
 
 
 #########################################
@@ -168,7 +168,7 @@ from ait_sdk.develop.annotation import measures, resources, downloads, ait_main 
 # must use modules
 
 
-# In[8]:
+# In[ ]:
 
 
 #########################################
@@ -182,7 +182,7 @@ if not is_ait_launch:
     manifest_genenerator.set_ait_name('eval_model_image_classify_acc_adversarial_example')
     manifest_genenerator.set_ait_description('入力画像から敵対的サンプル画像を生成し、入力モデル(入力画像で学習させた画像分類モデル）の精度情報(Accuracy,Precision,Recall,F値,AUC)を算出する\nこれらの精度情報から、機械学習モデルの正確性・安定性を評価することができる。')
     manifest_genenerator.set_ait_source_repository('https://github.com/aistairc/Qunomon_AIT_eval_model_image_classify_acc_adversarial_example')
-    manifest_genenerator.set_ait_version('0.5')
+    manifest_genenerator.set_ait_version('0.6')
     manifest_genenerator.add_ait_keywords('images')
     manifest_genenerator.add_ait_keywords('image classification')
     manifest_genenerator.add_ait_keywords('adversarial_example')
@@ -304,7 +304,7 @@ if not is_ait_launch:
     manifest_path = manifest_genenerator.write()
 
 
-# In[9]:
+# In[ ]:
 
 
 #########################################
@@ -333,7 +333,7 @@ if not is_ait_launch:
     input_generator.write()
 
 
-# In[10]:
+# In[ ]:
 
 
 #########################################
@@ -364,7 +364,7 @@ ait_manifest.read_json(path_helper.get_manifest_file_path())
 ### do not edit cell
 
 
-# In[11]:
+# In[ ]:
 
 
 class ACCCalculator:
@@ -431,7 +431,7 @@ class ACCCalculator:
         return (2 * precision * recall) / (precision + recall + K.epsilon())
 
 
-# In[12]:
+# In[ ]:
 
 
 #########################################
@@ -449,7 +449,7 @@ def calc_acc_all(y_test, y_pred) -> (float, float, float, float):
     return calc.average_accuracy(one_hot_y, y_pred).numpy() ,            calc.macro_precision(one_hot_y, y_pred).numpy() ,            calc.macro_recall(one_hot_y, y_pred).numpy() ,            calc.macro_f_measure(one_hot_y, y_pred).numpy()
 
 
-# In[13]:
+# In[ ]:
 
 
 #########################################
@@ -467,7 +467,7 @@ def calc_acc_by_class( y_test, y_pred) -> (List[float], List[float], List[float]
     return calc.all_class_accuracy(one_hot_y, y_pred) ,            [v.numpy() for v in calc.all_class_precision(one_hot_y, y_pred)] ,            [v.numpy() for v in calc.all_class_recall(one_hot_y, y_pred)] ,            [v.numpy() for v in calc.all_class_f_measure(one_hot_y, y_pred)]
 
 
-# In[14]:
+# In[ ]:
 
 
 #########################################
@@ -484,7 +484,7 @@ def save_confusion_matrix_csv(y_test, y_pred, file_path: str=None) -> None:
     np.savetxt(file_path, cmx_data, fmt='%d', delimiter=',')
 
 
-# In[15]:
+# In[ ]:
 
 
 #########################################
@@ -514,7 +514,7 @@ def save_confusion_matrix_heatmap(y_test, y_pred, file_path: str=None) -> None:
     plt.savefig(file_path)
 
 
-# In[16]:
+# In[ ]:
 
 
 #########################################
@@ -593,7 +593,7 @@ def save_roc_curve(y_test, y_pred, n_classes: int, file_path: str=None) -> None:
     plt.savefig(file_path)
 
 
-# In[17]:
+# In[ ]:
 
 
 #########################################
@@ -613,7 +613,7 @@ def calc_auc(y_test, y_pred, multi_class: str, average: str) -> float:
                          average=average)
 
 
-# In[18]:
+# In[ ]:
 
 
 #########################################
@@ -635,7 +635,7 @@ def save_prediction_result(y_test, y_pred, file_path: str=None) -> None:
     df.to_csv(file_path)
 
 
-# In[19]:
+# In[ ]:
 
 
 #########################################
@@ -650,7 +650,7 @@ def move_log(file_path: str=None) -> None:
     shutil.move(get_log_path(), file_path)
 
 
-# In[20]:
+# In[ ]:
 
 
 def create_adversarial_images(input_images, input_label, model, epsilon):
@@ -671,77 +671,66 @@ def create_adversarial_images(input_images, input_label, model, epsilon):
     return adv_image
 
 
-# In[21]:
+# In[ ]:
 
 
 import gzip
 import numpy as np
 
-class ACCCalculator:
+
+class MNIST:
     """
-    精度を計算する
+    MNISTの画像をラベルを読み込むクラスです。
 
-    accuracy calculator
+    Class to read labels from MNIST images.
     """
 
-    def normalize_y_pred(self, y_pred):
-        return K.one_hot(K.argmax(y_pred), y_pred.shape[-1])
+    def load_image(self, file_path: str, image_size: int) -> np.ndarray:
+        """
+        MNISTの画像を読み込みます。
 
-    def class_true_positive(self, class_label, y_true, y_pred):
-        y_pred = self.normalize_y_pred(y_pred)
-        return K.cast(K.equal(y_true[:, class_label] + y_pred[:, class_label], 2),
-                    K.floatx())
+        Load an MNIST image.
 
-    def class_precision(self, class_label, y_true, y_pred):
-        y_pred = self.normalize_y_pred(y_pred)
-        return K.sum(self.class_true_positive(class_label, y_true, y_pred)) / (K.sum(y_pred[:, class_label]) + K.epsilon())
+        Args:
+            file_path (str) :
+                MNISTの画像ファイル(gz)パスを指定します。
 
-    def all_class_precision(self, y_true, y_pred):
-        return [self.class_precision(i, y_true, y_pred) for i in range(y_pred.shape[-1])]
+                Specify the image file (gz) path for MNIST.
 
-    def macro_precision(self, y_true, y_pred):
-        class_count = y_pred.shape[-1]
-        return K.sum([self.class_precision(i, y_true, y_pred) for i in range(class_count)])             / K.cast(class_count, K.floatx())
+            image_size (str) :
+                MNISTの1辺の画像ピクセルサイズを指定します。
 
-    def class_recall(self, class_label, y_true, y_pred):
-        return K.sum(self.class_true_positive(class_label, y_true, y_pred)) / (K.sum(y_true[:, class_label]) + K.epsilon())
+                Specifies the image pixel size of one side of MNIST.
 
-    def all_class_recall(self, y_true, y_pred):
-        return [self.class_recall(i, y_true, y_pred) for i in range(y_pred.shape[-1])]
+        Returns:
+            np.ndarray
+        """
+        with gzip.open(file_path, 'rb') as f:
+            data = np.frombuffer(f.read(), np.uint8, offset=16)
+        data = data.reshape(-1, image_size, image_size)
+        return data
 
-    def macro_recall(self, y_true, y_pred):
-        class_count = y_pred.shape[-1]
-        return K.sum([self.class_recall(i, y_true, y_pred) for i in range(class_count)])             / K.cast(class_count, K.floatx())
+    def load_label(self, file_path: str) -> np.ndarray:
+        """
+        MNISTのラベルを読み込みます。
 
-    def class_accuracy(self, class_label, y_true, y_pred):
-        y_pred = self.normalize_y_pred(y_pred)
-        return K.cast(K.equal(y_true[:, class_label], y_pred[:, class_label]),
-                    K.floatx())
+        Load an MNIST label.
 
-    def all_class_accuracy(self, y_true, y_pred):
-        return [np.mean(self.class_accuracy(i, y_true, y_pred)) for i in range(y_pred.shape[-1])]
+        Args:
+            file_path (str) :
+                MNISTのラベルファイル(gz)パスを指定します。
 
-    def average_accuracy(self, y_true, y_pred):
-        class_count = y_pred.shape[-1]
-        class_acc_list = [self.class_accuracy(i, y_true, y_pred) for i in range(class_count)]
-        class_acc_matrix = K.concatenate(class_acc_list, axis=0)
-        return K.mean(class_acc_matrix, axis=0)
+                Specify the label file (gz) path for MNIST.
 
-    def class_f_measure(self, class_label, y_true, y_pred):
-        precision = self.class_precision(class_label, y_true, y_pred)
-        recall = self.class_recall(class_label, y_true, y_pred)
-        return (2 * precision * recall) / (precision + recall + K.epsilon())
-
-    def all_class_f_measure(self, y_true, y_pred):
-        return [self.class_f_measure(i, y_true, y_pred) for i in range(y_pred.shape[-1])]
-
-    def macro_f_measure(self, y_true, y_pred):
-        precision = self.macro_precision(y_true, y_pred)
-        recall = self.macro_recall(y_true, y_pred)
-        return (2 * precision * recall) / (precision + recall + K.epsilon())
+        Returns:
+            np.ndarray
+        """
+        with gzip.open(file_path, 'rb') as f:
+            labels = np.frombuffer(f.read(), np.uint8, offset=8)
+        return labels
 
 
-# In[22]:
+# In[ ]:
 
 
 #########################################
@@ -801,7 +790,7 @@ def main() -> None:
     move_log()
 
 
-# In[23]:
+# In[ ]:
 
 
 #########################################
