@@ -90,11 +90,11 @@ if not is_ait_launch:
 #########################################
 if not is_ait_launch:
     requirements_generator._package_list = []
-    requirements_generator.add_package('matplotlib', '3.3.0')
+    requirements_generator.add_package('matplotlib', '3.9.4')
     requirements_generator.add_package('numpy', '1.26.4')
     requirements_generator.add_package('pandas', '2.2.3')
-    requirements_generator.add_package('scikit-learn', '1.5.2')
-    requirements_generator.add_package('seaborn', '0.12.1')
+    requirements_generator.add_package('scikit-learn', '1.6.0')
+    requirements_generator.add_package('seaborn', '0.13.2')
     requirements_generator.add_package('tensorflow', '2.15.0')
     requirements_generator.add_package('tensorflow-estimator', '2.15.0')
     requirements_generator.add_package('tensorflow-cpu', '2.15.0')
@@ -505,10 +505,9 @@ def save_confusion_matrix_heatmap(y_test, y_pred, file_path: str=None) -> None:
 
     fig = plt.figure(dpi=100, figsize=(8,6))
     sn.heatmap(df_cmx, annot=True, fmt='g' ,square = True)
-    ax = fig.add_subplot(1, 1, 1)
-    ax.set_xlabel('Predicted class')
-    ax.set_ylabel('Actual class')
-    ax.set_title('Plot of Confusion Matrix')
+    plt.xlabel('Predicted class')
+    plt.ylabel('Actual class')
+    plt.title('Plot of Confusion Matrix')
 
     # save as png
     plt.savefig(file_path)
