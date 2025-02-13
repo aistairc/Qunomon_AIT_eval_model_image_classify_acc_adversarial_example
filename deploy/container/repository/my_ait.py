@@ -90,14 +90,14 @@ if not is_ait_launch:
 #########################################
 if not is_ait_launch:
     requirements_generator._package_list = []
-    requirements_generator.add_package('matplotlib', '3.9.4')
-    requirements_generator.add_package('numpy', '1.26.4')
+    requirements_generator.add_package('matplotlib', '3.10.0')
+    requirements_generator.add_package('numpy', '2.0.2')
     requirements_generator.add_package('pandas', '2.2.3')
-    requirements_generator.add_package('scikit-learn', '1.6.0')
+    requirements_generator.add_package('scikit-learn', '1.6.1')
     requirements_generator.add_package('seaborn', '0.13.2')
-    requirements_generator.add_package('tensorflow', '2.15.0')
+    requirements_generator.add_package('tensorflow', '2.18.0')
     requirements_generator.add_package('tensorflow-estimator', '2.15.0')
-    requirements_generator.add_package('tensorflow-cpu', '2.15.0')
+    requirements_generator.add_package('tensorflow-cpu', '2.18.0')
 
 
 # In[ ]:
@@ -182,7 +182,7 @@ if not is_ait_launch:
     manifest_genenerator.set_ait_name('eval_model_image_classify_acc_adversarial_example')
     manifest_genenerator.set_ait_description('入力画像から敵対的サンプル画像を生成し、入力モデル(入力画像で学習させた画像分類モデル）の精度情報(Accuracy,Precision,Recall,F値,AUC)を算出する\nこれらの精度情報から、機械学習モデルの正確性・安定性を評価することができる。')
     manifest_genenerator.set_ait_source_repository('https://github.com/aistairc/Qunomon_AIT_eval_model_image_classify_acc_adversarial_example')
-    manifest_genenerator.set_ait_version('0.7')
+    manifest_genenerator.set_ait_version('0.8')
     manifest_genenerator.add_ait_keywords('images')
     manifest_genenerator.add_ait_keywords('image classification')
     manifest_genenerator.add_ait_keywords('adversarial_example')
@@ -394,6 +394,8 @@ class ACCCalculator:
         return K.sum([self.class_precision(i, y_true, y_pred) for i in range(class_count)])             / K.cast(class_count, K.floatx())
 
     def class_recall(self, class_label, y_true, y_pred):
+        y_true = tf.cast(y_true, tf.float32)
+        y_pred = tf.cast(y_pred, tf.float32)
         return K.sum(self.class_true_positive(class_label, y_true, y_pred)) / (K.sum(y_true[:, class_label]) + K.epsilon())
 
     def all_class_recall(self, y_true, y_pred):
